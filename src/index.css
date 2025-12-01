@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+/* Theme configuration using @theme for Tailwind v4 */
+@theme {
+  /* No custom theme needed - using CSS variables for theming */
+}
+
+/* Theme CSS Variables */
+:root {
+  /* Light theme colors (defaults - can be overridden by genre) */
+  --color-bg: #ffffff;
+  --color-surface: #f5f5f5;
+  --color-primary: #6366f1;
+  --color-primary-hover: #4f46e5;
+  --color-text: #1f2937;
+  --color-text-muted: #6b7280;
+  --color-border: #e5e7eb;
+  
+  /* Genre-specific accent (set dynamically) */
+  --genre-accent: #6366f1;
+  
+  /* Bingo cell colors */
+  --cell-bg: #ffffff;
+  --cell-border: #d1d5db;
+  --cell-hover-border: var(--color-primary);
+  --cell-marked-bg: var(--color-primary);
+  --cell-marked-text: #ffffff;
+  --cell-free-bg: #fbbf24;
+  --cell-free-text: #78350f;
+  
+  /* Animation */
+  --transition-speed: 0.2s;
+}
+
+/* Dark theme */
+.dark {
+  --color-bg: #111827;
+  --color-surface: #1f2937;
+  --color-primary: #818cf8;
+  --color-primary-hover: #6366f1;
+  --color-text: #f9fafb;
+  --color-text-muted: #9ca3af;
+  --color-border: #374151;
+  
+  --genre-accent: #818cf8;
+  
+  --cell-bg: #1f2937;
+  --cell-border: #374151;
+  --cell-hover-border: var(--color-primary);
+  --cell-marked-bg: var(--color-primary-hover);
+  --cell-marked-text: #f9fafb;
+  --cell-free-bg: #d97706;
+  --cell-free-text: #fef3c7;
+}
+
+/* Base styles */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Custom scrollbar for dark mode */
+.dark ::-webkit-scrollbar {
+  width: 10px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background-color: #1f2937;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+  border-radius: 0.25rem;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #6b7280;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes confetti {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

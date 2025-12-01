@@ -1,0 +1,83 @@
+import { useState, useEffect } from 'react';
+import { ThemeProvider } from '@context/ThemeContext';
+import { GameStateProvider, useGameState } from '@context/GameStateContext';
+import { GenreEditorProvider } from '@context/GenreEditorContext';
+import { ThemeToggle } from '@components/ui/ThemeToggle';
+import { Button } from '@components/ui/Button';
+import { GenreSelector } from '@components/game/GenreSelector';
+import { QuestionFlow } from '@components/game/QuestionFlow';
+import { BingoBoard } from '@components/game/BingoBoard';
+import { GenreEditor } from '@components/editor/GenreEditor';
+import { handleSharedGenreOnLoad } from '@utils/shareGenre';
+
+type AppMode = 'game' | 'editor';
+
+function AppContent() {
+  const { selectedGenre, board } = useGameState();
+  const [mode, setMode] = useState<AppMode>('game');
+
+  // Handle shared genre links on mount
+  useEffect(() => {
+    handleSharedGenreOnLoad();
+  }, []);
+
+  if (mode === 'editor') {
+    return (
+      <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] transition-colors duration-200">
+        <header className="border-b border-[var(--color-border)] bg-[var(--color-surface)]">
+          <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+            <h1 className="text-3xl font-bold">🎬 Movie Trope Bingo</h1>
+            <div className="flex items-center gap-4">
+              <Button onClick={() => setMode('game')} variant="outline" className="text-sm">
+                ← Back to Game
+              </Button>
+              <ThemeToggle />
+            </div>
+          </div>
+        </header>
+        <GenreEditor />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] transition-colors duration-200">
+      <header className="border-b border-[var(--color-border)] bg-[var(--color-surface)]">
+        <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+          <h1 className="text-3xl font-bold">🎬 Movie Trope Bingo</h1>
+          <div className="flex items-center gap-4">
+            <Button onClick={() => setMode('editor')} variant="outline" className="text-sm">
+              Genre Editor
+            </Button>
+            <ThemeToggle />
+          </div>
+        </div>
+      </header>
+      
+      <main className="max-w-7xl mx-auto px-6 py-12">
+        {/* No genre selected - show genre selector */}
+        {!selectedGenre && <GenreSelector />}
+        
+        {/* Genre selected but no board - show question flow */}
+        {selectedGenre && !board && <QuestionFlow />}
+        
+        {/* Board generated - show bingo board */}
+        {selectedGenre && board && <BingoBoard />}
+      </main>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <GameStateProvider>
+        <GenreEditorProvider>
+          <AppContent />
+        </GenreEditorProvider>
+      </GameStateProvider>
+    </ThemeProvider>
+  );
+}
+
+export default App;
