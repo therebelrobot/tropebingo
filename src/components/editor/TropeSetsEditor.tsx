@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useGenreEditor } from '@context/GenreEditorContext';
 import type { TropeSet, Trope } from '@data/types';
 import { Button } from '@components/ui/Button';
@@ -21,7 +21,7 @@ export function TropeSetsEditor() {
   const generateSetId = (filters: Record<string, string | string[]>): string => {
     const parts: string[] = [];
     
-    for (const [key, value] of Object.entries(filters)) {
+    for (const [, value] of Object.entries(filters)) {
       if (value === undefined) continue;
       
       if (Array.isArray(value)) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useGenreEditor } from '@context/GenreEditorContext';
 import type { Question, QuestionOption } from '@data/types';
 import { Button } from '@components/ui/Button';

@@ -1,4 +1,4 @@
-import type { WinLine, LineType } from '@data/types';
+import type { WinLine } from '@data/types';
 
 /**
  * Check if a line (row, column, or diagonal) is complete on a 5x5 bingo board

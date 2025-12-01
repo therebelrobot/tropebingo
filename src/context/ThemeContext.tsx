@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, type PropsWithChildren } from 'react';
+import { createContext, useContext, useEffect, useState, type PropsWithChildren } from 'react';
 import { saveTheme, loadTheme } from '@utils/persistence';
 import type { Theme, Genre } from '@data/types';
 

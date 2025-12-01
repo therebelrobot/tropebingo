@@ -1,6 +1,5 @@
 import { getAllGenres } from '@data/genres';
 import { useGameState } from '@context/GameStateContext';
-import { Button } from '@components/ui/Button';
 
 export function GenreSelector() {
   const genres = getAllGenres();

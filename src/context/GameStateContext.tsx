@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect, useState, type PropsWithChildren } from 'react';
-import type { GameState, Trope, Genre } from '@data/types';
+import { createContext, useContext, useEffect, useState, type PropsWithChildren } from 'react';
+import type { GameState, Genre } from '@data/types';
 import { getGenreById } from '@data/genres';
 import { selectTropes, generateBoard } from '@utils/tropes';
 import { generateSeed } from '@utils/shuffle';

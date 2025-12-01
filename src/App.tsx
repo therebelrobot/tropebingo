@@ -4,22 +4,54 @@ import { GameStateProvider, useGameState } from '@context/GameStateContext';
 import { GenreEditorProvider } from '@context/GenreEditorContext';
 import { ThemeToggle } from '@components/ui/ThemeToggle';
 import { Button } from '@components/ui/Button';
+import { Modal } from '@components/ui/Modal';
 import { GenreSelector } from '@components/game/GenreSelector';
 import { QuestionFlow } from '@components/game/QuestionFlow';
 import { BingoBoard } from '@components/game/BingoBoard';
 import { GenreEditor } from '@components/editor/GenreEditor';
-import { handleSharedGenreOnLoad } from '@utils/shareGenre';
+import { getSharedGenreFromUrl, handleSharedGenreImport, clearShareUrl } from '@utils/shareGenre';
+import type { Genre } from '@data/types';
 
 type AppMode = 'game' | 'editor';
 
 function AppContent() {
   const { selectedGenre, board } = useGameState();
   const [mode, setMode] = useState<AppMode>('game');
+  const [sharedGenre, setSharedGenre] = useState<Genre | null>(null);
+  const [importModal, setImportModal] = useState(false);
+  const [successModal, setSuccessModal] = useState<string>('');
+  const [errorModal, setErrorModal] = useState<string>('');
 
   // Handle shared genre links on mount
   useEffect(() => {
-    handleSharedGenreOnLoad();
+    const genre = getSharedGenreFromUrl();
+    if (genre) {
+      setSharedGenre(genre);
+      setImportModal(true);
+    }
   }, []);
+
+  const handleImportConfirm = () => {
+    if (sharedGenre) {
+      handleSharedGenreImport(
+        sharedGenre,
+        (message) => {
+          setImportModal(false);
+          setSuccessModal(message);
+        },
+        (message) => {
+          setImportModal(false);
+          setErrorModal(message);
+        }
+      );
+    }
+  };
+
+  const handleImportCancel = () => {
+    setImportModal(false);
+    setSharedGenre(null);
+    clearShareUrl();
+  };
 
   if (mode === 'editor') {
     return (
@@ -64,6 +96,33 @@ function AppContent() {
         {/* Board generated - show bingo board */}
         {selectedGenre && board && <BingoBoard />}
       </main>
+
+      {/* Shared Genre Import Modals */}
+      <Modal
+        isOpen={importModal}
+        onClose={handleImportCancel}
+        onConfirm={handleImportConfirm}
+        title="Import Shared Genre"
+        message={`Import shared genre "${sharedGenre?.name}"?\n\nThis will save it to your browser and make it available in the genre selector.`}
+        type="confirm"
+        confirmText="Import"
+      />
+
+      <Modal
+        isOpen={!!successModal}
+        onClose={() => setSuccessModal('')}
+        title="Success"
+        message={successModal}
+        type="alert"
+      />
+
+      <Modal
+        isOpen={!!errorModal}
+        onClose={() => setErrorModal('')}
+        title="Error"
+        message={errorModal}
+        type="alert"
+      />
     </div>
   );
 }

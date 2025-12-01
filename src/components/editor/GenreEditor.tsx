@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useGenreEditor } from '@context/GenreEditorContext';
 import { getAllGenres } from '@data/genres';
 import type { Genre } from '@data/types';
@@ -7,7 +7,7 @@ import { Modal } from '@components/ui/Modal';
 import { BasicInfoEditor } from './BasicInfoEditor';
 import { QuestionsEditor } from './QuestionsEditor';
 import { TropeSetsEditor } from './TropeSetsEditor';
-import { saveCustomGenre, isCustomGenre } from '@utils/customGenres';
+import { saveCustomGenre } from '@utils/customGenres';
 import { createShareUrl } from '@utils/shareGenre';
 
 function EditorTabs() {

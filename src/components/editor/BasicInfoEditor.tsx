@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useGenreEditor } from '@context/GenreEditorContext';
 import { Button } from '@components/ui/Button';
 import { COLOR_PALETTES, generateRandomPalette, type ColorPalette } from '@utils/colorPalettes';
